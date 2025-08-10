@@ -4,25 +4,34 @@ services:
   billing:
     build:
       context: ./billing
+    container_name: billing
     ports:
       - "8000:8000"
     volumes:
       - ./billing:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
     depends_on:
       - db
 
   gst_backend:
     build:
-      context: ./gst_backend
+      context: ./backend/gst_backend
+    container_name: gst_backend
     ports:
       - "8001:8001"
     volumes:
-      - ./gst_backend:/app
+      - ./backend/gst_backend:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+    env_file:
+      - ./backend/gst_backend/.env
     depends_on:
       - db
 
   db:
     image: postgres:15
+    container_name: postgres_db
     environment:
       POSTGRES_DB: your_db
       POSTGRES_USER: your_user
@@ -32,3 +41,5 @@ services:
 
 volumes:
   pgdata:
+  static_volume:
+  media_volume:
