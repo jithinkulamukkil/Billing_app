@@ -3,12 +3,12 @@ version: '3.8'
 services:
   billing:
     build:
-      context: ./billing
+      context: ./backend/billing
     container_name: billing
     ports:
       - "8000:8000"
     volumes:
-      - ./billing:/app
+      - ./backend/billing:/app
       - static_volume:/app/static
       - media_volume:/app/media
     depends_on:
